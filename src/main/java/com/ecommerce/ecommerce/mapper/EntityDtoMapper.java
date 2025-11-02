@@ -9,18 +9,17 @@ import java.util.stream.Collectors;
 @Component
 public class EntityDtoMapper {
 
-    public UserDto mapUserToDtoBasic(User user){
+    public UserDto mapUserToDtoBasic(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setPhoneNumber(String.valueOf(user.getPhoneNumber()));
+        userDto.setPhoneNumber(user.getPhoneNumber());
         userDto.setRole(user.getRole());
         return userDto;
     }
 
-    public AddressDto mapAddressToDtoBasic(Address address){
+    public AddressDto mapAddressToDtoBasic(Address address) {
         AddressDto addressDto = new AddressDto();
         addressDto.setId(address.getId());
         addressDto.setCity(address.getCity());
@@ -31,14 +30,14 @@ public class EntityDtoMapper {
         return addressDto;
     }
 
-    public CategoryDto mapCategoryToDtoBasic(Category category){
+    public CategoryDto mapCategoryToDtoBasic(Category category) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());
         return categoryDto;
     }
 
-    public OrderItemDto mapOrderItemToDtoBasic(OrderItem orderItem){
+    public OrderItemDto mapOrderItemToDtoBasic(OrderItem orderItem) {
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setId(orderItem.getId());
         orderItemDto.setPrice(orderItem.getPrice());
@@ -48,42 +47,57 @@ public class EntityDtoMapper {
         return orderItemDto;
     }
 
-    public ProductDto mapProductToDtoBasic(Product product){
+    public ProductDto mapProductToDtoBasic(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
         productDto.setName(product.getName());
         productDto.setPrice(product.getPrice());
         productDto.setDescription(product.getDescription());
-        productDto.setPrice(product.getPrice());
         productDto.setImageUrl(product.getImageUrl());
         return productDto;
     }
 
-    public UserDto mapUserToDtoPlusAddress(User user){
+    public UserDto mapUserToDtoPlusAddress(User user) {
+        if (user == null) return null;
+
         UserDto userDto = new UserDto();
-        if(user.getAddress() != null){
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setRole(user.getRole());
+
+        if (user.getAddress() != null) {
             AddressDto addressDto = mapAddressToDtoBasic(user.getAddress());
             userDto.setAddress(addressDto);
         }
+
         return userDto;
     }
 
-    public OrderItemDto mapOrderItemToDtoPlusProduct(OrderItem orderItem){
+    public OrderItemDto mapOrderItemToDtoPlusProduct(OrderItem orderItem) {
         OrderItemDto orderItemDto = mapOrderItemToDtoBasic(orderItem);
 
-        if(orderItemDto.getProduct() != null){
+        if (orderItem.getProduct() != null) {
             ProductDto productDto = mapProductToDtoBasic(orderItem.getProduct());
             orderItemDto.setProduct(productDto);
         }
         return orderItemDto;
     }
 
-    public OrderItemDto mapOrderItemToDtoPlusProductAndUser(OrderItem orderItem){
+    public OrderItemDto mapOrderItemToDtoPlusProductAndUser(OrderItem orderItem) {
         OrderItemDto orderItemDto = mapOrderItemToDtoBasic(orderItem);
-        if(orderItemDto.getProduct() != null){
+
+        if (orderItem.getProduct() != null) {
+            ProductDto productDto = mapProductToDtoBasic(orderItem.getProduct());
+            orderItemDto.setProduct(productDto);
+        }
+
+        if (orderItem.getUser() != null) {
             UserDto userDto = mapUserToDtoPlusAddress(orderItem.getUser());
             orderItemDto.setUser(userDto);
         }
+
         return orderItemDto;
     }
 
@@ -100,5 +114,4 @@ public class EntityDtoMapper {
 
         return userDto;
     }
-
 }
