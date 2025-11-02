@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final UserService userService;
 
-
     @PostMapping("/register")
     public ResponseEntity<Response> registerUser(@RequestBody UserDto registrationRequest) {
         return ResponseEntity.ok(userService.registerUser(registrationRequest));

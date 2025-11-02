@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements  CategoryService {
 
     @Override
     public Response updateCategory(Long categoryId, CategoryDto categoryRequest) {
-        Category category = categoryRepo.findById(Math.toIntExact(categoryId)).orElseThrow(()-> new NotFoundException("Category Not Found"));
+        Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new NotFoundException("Category Not Found"));
         category.setName(categoryRequest.getName());
         categoryRepo.save(category);
         return Response.builder()
@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements  CategoryService {
 
     @Override
     public Response getCategoryById(Long categoryId) {
-        Category category = categoryRepo.findById(Math.toIntExact(categoryId)).orElseThrow(()-> new NotFoundException("Category Not Found"));
+        Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new NotFoundException("Category Not Found"));
         CategoryDto categoryDto = entityDtoMapper.mapCategoryToDtoBasic(category);
         return Response.builder()
                 .status(200)
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements  CategoryService {
 
     @Override
     public Response deleteCategory(Long categoryId) {
-        Category category = categoryRepo.findById(Math.toIntExact(categoryId)).orElseThrow(()-> new NotFoundException("Category Not Found"));
+        Category category = categoryRepo.findById(categoryId).orElseThrow(()-> new NotFoundException("Category Not Found"));
         categoryRepo.delete(category);
         return Response.builder()
                 .status(200)

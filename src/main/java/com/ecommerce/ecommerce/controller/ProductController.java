@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -24,23 +25,25 @@ public class ProductController {
             @RequestParam Long categoryId,
             @RequestParam String name,
             @RequestParam String description,
+            @RequestParam MultipartFile multipartFile,
             @RequestParam BigDecimal price) {
         if (categoryId == null || name.isEmpty() || description.isEmpty() || price == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(productService.createProduct(categoryId, name, description, price));
+        return ResponseEntity.ok(productService.createProduct(categoryId, name, description, multipartFile, price));
     }
 
 
     @PostMapping("/update/{productId}")
     public ResponseEntity<Response> updateProduct(
-            @RequestParam Long productId,
+            @PathVariable Long productId,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
+            @RequestParam MultipartFile multipartFile,
             @RequestParam(required = false) BigDecimal price) {
 
-        return ResponseEntity.ok(productService.updateProduct(productId, categoryId, name, description, price));
+        return ResponseEntity.ok(productService.updateProduct(productId, categoryId, name, description, price, multipartFile));
     }
 
     @DeleteMapping("/delete/{productId}")
@@ -48,7 +51,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.deleteProduct(productId));
     }
 
-    @DeleteMapping("/get-all-product-id/{productId}")
+    @GetMapping("/get-all-product-id/{productId}")
     public ResponseEntity<Response> getProductById(@PathVariable Long productId) {
         return ResponseEntity.ok(productService.getProductById(productId));
     }
