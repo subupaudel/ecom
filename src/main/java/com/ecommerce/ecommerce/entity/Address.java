@@ -19,7 +19,7 @@ public class Address {
     private String country;
     private String state;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "user_id")
     private User user;
 

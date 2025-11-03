@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderItemService {
 
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
-        orderItem.setQuantity(orderItem.getQuantity());
+        orderItem.setQuantity(orderItemRequest.getQuantity());
         orderItem.setPrice(product.getPrice().multiply(BigDecimal.valueOf(orderItemRequest.getQuantity())));
         orderItem.setStatus(OrderStatus.PENDING);
         orderItem.setUser(user);
